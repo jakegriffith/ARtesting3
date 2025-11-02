@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Watchers - Dead Internet Theory AR</title>
+    <meta name="description" content="AR experience exploring surveillance and the Dead Internet Theory">
+    
+    <!-- AR.js and A-Frame libraries -->
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.min.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+        }
+        
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff3300;
+            font-family: 'Arial', sans-serif;
+            font-size: 20px;
+            text-align: center;
+            z-index: 1000;
+            text-shadow: 0 0 20px #ff3300;
+            font-weight: bold;
+        }
+        
+        #instructions {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff3300;
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+            text-align: center;
+            z-index: 999;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px 25px;
+            border: 2px solid #ff3300;
+            border-radius: 5px;
+            max-width: 90%;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading message -->
+    <div id="loading">
+        <div>⚠️ INITIALIZING SURVEILLANCE ⚠️</div>
+        <div style="font-size: 14px; margin-top: 10px;">Allow camera access</div>
+    </div>
+    
+    <!-- Instructions -->
+    <div id="instructions" style="display: none;">
+        👁️ YOU ARE BEING WATCHED 👁️<br>
+        <small>Point at Hiro marker</small>
+    </div>
+
+    <!-- A-Frame AR Scene -->
+    <a-scene
+        embedded
+        arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+        vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true; precision: medium;">
+        
+        <a-assets>
+            <!-- Eye texture will be generated programmatically -->
+        </a-assets>
+        
+        <a-entity camera></a-entity>
+        
+        <!-- Hiro Marker -->
+        <a-marker preset="hiro" id="hiro-marker">
+            
+            <!-- WARNING TEXT - Large and Obvious -->
+            <a-text 
+                id="warning1"
+                value="YOU ARE BEING WATCHED"
+                color="#ff3300"
+                position="0 2.0 0"
+                rotation="0 0 0"
+                scale="0.8 0.8 0.8"
+                align="center"
+                shader="flat"
+                transparent="true"
+                opacity="1">
+            </a-text>
+            
+            <a-text 
+                id="warning2"
+                value="DATA COLLECTION ACTIVE"
+                color="#ff6600"
+                position="0 1.7 0"
+                rotation="0 0 0"
+                scale="0.5 0.5 0.5"
+                align="center"
+                shader="flat"
+                transparent="true"
+                opacity="0.9">
+            </a-text>
+            
+            <a-text 
+                id="counter"
+                value="TRACKED: 0"
+                color="#ff0000"
+                position="0 1.45 0"
+                rotation="0 0 0"
+                scale="0.4 0.4 0.4"
+                align="center"
+                shader="flat"
+                transparent="true"
+                opacity="0.95">
+            </a-text>
+            
+            <!-- FLOATING EYEBALLS -->
+            <!-- Front Eyes -->
+            <a-sphere 
+                id="eye1"
+                radius="0.15"
+                position="-0.4 1.2 0.2"
+                color="#ffffff"
+                shader="flat">
+                <!-- Iris -->
+                <a-sphere 
+                    radius="0.08"
+                    position="0 0 0.14"
+                    color="#4488ff"
+                    shader="flat">
+                    <!-- Pupil -->
+                    <a-sphere 
+                        radius="0.04"
+                        position="0 0 0.03"
+                        color="#000000"
+                        shader="flat">
+                    </a-sphere>
+                </a-sphere>
+            </a-sphere>
+            
+            <a-sphere 
+                id="eye2"
+                radius="0.18"
+                position="0.5 1.0 0.1"
+                color="#ffffff"
+                shader="flat">
+                <a-sphere 
+                    radius="0.09"
+                    position="0 0 0.17"
+                    color="#66aa88"
+                    shader="flat">
+                    <a-sphere 
+                        radius="0.045"
+                        position="0 0 0.03"
+                        color="#000000"
+                        shader="flat">
+                    </a-sphere>
+                </a-sphere>
+            </a-sphere>
+            
+            <!-- Side Eyes -->
+            <a-sphere 
+                id="eye3"
+                radius="0.12"
+                position="-0.8 1.4 0.3"
+                color="#ffffff"
+                shader="flat">
+                <a-sphere 
+                    radius="0.06"
+                    position="0 0 0.11"
+                    color="#ff8844"
+                    shader="flat">
+                    <a-sphere 
+                        radius="0.03"
+                        position="0 0 0.02"
+                        color="#000000"
+                        shader="flat">
+                    </a-sphere>
+                </a-sphere>
+            </a-sphere>
+            
+            <a-sphere 
+                id="eye4"
+                radius="0.14"
+                position="0.7 1.5 0.4"
+                color="#ffffff"
+                shader="flat">
+                <a-sphere 
+                    radius="0.07"
+                    position="0 0 0.13"
+                    color="#8844ff"
+                    shader="flat">
+                    <a-sphere 
+                        radius="0.035"
+                        position="0 0 0.02"
+                        color="#000000"
+                        shader="flat">
+                    </a-sphere>
+                </a-sphere>
+            </a-sphere>
+            
+            <!-- Back/Far Eyes -->
+            <a-sphere 
+                id="eye5"
+                radius="0.10"
+                position="-0.3 0.8 0.6"
+                color="#ffffff"
+                shader="flat">
+                <a-sphere 
+                    radius="0.05"
+                    position="0 0 0.09"
+                    color="#44ff88"
+                    shader="flat">
+                    <a-sphere 
+                        radius="0.025"
+                        position="0 0 0.02"
+                        color="#000000"
+                        shader="flat">
+                    </a-sphere>
+                </a-sphere>
+            </a-sphere>
+            
+            <a-sphere 
+                id="eye6"
+                radius="0.16"
+                position="0.3 1.8 0.5"
+                color="#ffffff"
+                shader="flat">
+                <a-sphere 
+                    radius="0.08"
+                    position="0 0 0.15"
+                    color="#ff4488"
+                    shader="flat">
+                    <a-sphere 
+                        radius="0.04"
+                        position="0 0 0.03"
+                        color="#000000"
+                        shader="flat">
+                    </a-sphere>
+                </a-sphere>
+            </a-sphere>
+            
+            <!-- High Eyes -->
+            <a-sphere 
+                id="eye7"
+                radius="0.13"
+                position="0 2.3 0.3"
+                color="#ffffff"
+                shader="flat">
+                <a-sphere 
+                    radius="0.065"
+                    position="0 0 0.12"
+                    color="#ffaa44"
+                    shader="flat">
+                    <a-sphere 
+                        radius="0.032"
+                        position="0 0 0.02"
+                        color="#000000"
+                        shader="flat">
+                    </a-sphere>
+                </a-sphere>
+            </a-sphere>
+            
+            <!-- Low Eyes -->
+            <a-sphere 
+                id="eye8"
+                radius="0.11"
+                position="-0.6 0.6 0.4"
+                color="#ffffff"
+                shader="flat">
+                <a-sphere 
+                    radius="0.055"
+                    position="0 0 0.10"
+                    color="#88ff44"
+                    shader="flat">
+                    <a-sphere 
+                        radius="0.028"
+                        position="0 0 0.02"
+                        color="#000000"
+                        shader="flat">
+                    </a-sphere>
+                </a-sphere>
+            </a-sphere>
+            
+            <a-sphere 
+                id="eye9"
+                radius="0.15"
+                position="0.6 0.7 0.2"
+                color="#ffffff"
+                shader="flat">
+                <a-sphere 
+                    radius="0.075"
+                    position="0 0 0.14"
+                    color="#4488aa"
+                    shader="flat">
+                    <a-sphere 
+                        radius="0.037"
+                        position="0 0 0.03"
+                        color="#000000"
+                        shader="flat">
+                    </a-sphere>
+                </a-sphere>
+            </a-sphere>
+            
+            <!-- Additional scattered eyes for complete surveillance feeling -->
+            <a-sphere 
+                id="eye10"
+                radius="0.09"
+                position="0.2 1.1 0.7"
+                color="#ffffff"
+                shader="flat">
+                <a-sphere 
+                    radius="0.045"
+                    position="0 0 0.08"
+                    color="#aa44ff"
+                    shader="flat">
+                    <a-sphere 
+                        radius="0.022"
+                        position="0 0 0.02"
+                        color="#000000"
+                        shader="flat">
+                    </a-sphere>
+                </a-sphere>
+            </a-sphere>
+            
+        </a-marker>
+    </a-scene>
+
+    <script>
+        // Hide loading message once scene is loaded
+        const scene = document.querySelector('a-scene');
+        scene.addEventListener('loaded', () => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('instructions').style.display = 'block';
+        });
+        
+        // Track counter
+        let trackedCount = 0;
+        
+        // Eye rotation animation
+        function rotateEye(eyeId, speed, axis) {
+            const eye = document.getElementById(eyeId);
+            if (!eye) return;
+            
+            let rotation = 0;
+            setInterval(() => {
+                rotation += speed;
+                if (axis === 'y') {
+                    eye.setAttribute('rotation', `0 ${rotation} 0`);
+                } else if (axis === 'x') {
+                    eye.setAttribute('rotation', `${rotation} 0 0`);
+                } else {
+                    eye.setAttribute('rotation', `${rotation} ${rotation} 0`);
+                }
+            }, 50);
+        }
+        
+        // Blinking animation
+        function blinkEye(eyeId) {
+            const eye = document.getElementById(eyeId);
+            if (!eye) return;
+            
+            const originalScale = eye.getAttribute('scale') || {x: 1, y: 1, z: 1};
+            
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    // Blink (compress vertically)
+                    eye.setAttribute('scale', `${originalScale.x} 0.1 ${originalScale.z}`);
+                    setTimeout(() => {
+                        eye.setAttribute('scale', `${originalScale.x} ${originalScale.y} ${originalScale.z}`);
+                    }, 100);
+                }
+            }, Math.random() * 3000 + 2000);
+        }
+        
+        // Floating animation
+        function floatEye(eyeId, range, speed) {
+            const eye = document.getElementById(eyeId);
+            if (!eye) return;
+            
+            const originalPos = eye.getAttribute('position');
+            let offset = 0;
+            let direction = 1;
+            
+            setInterval(() => {
+                offset += direction * 0.01;
+                if (Math.abs(offset) > range) {
+                    direction *= -1;
+                }
+                eye.setAttribute('position', {
+                    x: originalPos.x,
+                    y: originalPos.y + offset,
+                    z: originalPos.z
+                });
+            }, speed);
+        }
+        
+        // Text flicker
+        function flickerText(textId) {
+            const text = document.getElementById(textId);
+            if (!text) return;
+            
+            setInterval(() => {
+                if (Math.random() > 0.8) {
+                    const currentOpacity = parseFloat(text.getAttribute('opacity'));
+                    text.setAttribute('opacity', Math.random() * 0.3 + 0.3);
+                    setTimeout(() => {
+                        text.setAttribute('opacity', currentOpacity);
+                    }, 50);
+                }
+            }, 200);
+        }
+        
+        // Increment counter
+        function updateCounter() {
+            const counter = document.getElementById('counter');
+            if (!counter) return;
+            
+            setInterval(() => {
+                trackedCount += Math.floor(Math.random() * 5) + 1;
+                counter.setAttribute('value', `TRACKED: ${trackedCount}`);
+            }, 1000);
+        }
+        
+        // Wait for marker to be found
+        const marker = document.getElementById('hiro-marker');
+        marker.addEventListener('markerFound', () => {
+            console.log('Marker found - surveillance initiated...');
+            
+            // Rotate eyes slowly (tracking motion)
+            rotateEye('eye1', 0.5, 'y');
+            rotateEye('eye2', -0.3, 'y');
+            rotateEye('eye3', 0.4, 'x');
+            rotateEye('eye4', -0.6, 'y');
+            rotateEye('eye5', 0.7, 'both');
+            rotateEye('eye6', -0.4, 'x');
+            rotateEye('eye7', 0.5, 'y');
+            rotateEye('eye8', -0.5, 'y');
+            rotateEye('eye9', 0.6, 'x');
+            rotateEye('eye10', -0.7, 'both');
+            
+            // Blink eyes randomly
+            for (let i = 1; i <= 10; i++) {
+                blinkEye(`eye${i}`);
+            }
+            
+            // Float eyes gently
+            floatEye('eye1', 0.1, 60);
+            floatEye('eye2', 0.15, 70);
+            floatEye('eye3', 0.08, 50);
+            floatEye('eye4', 0.12, 65);
+            floatEye('eye5', 0.1, 55);
+            floatEye('eye6', 0.14, 75);
+            floatEye('eye7', 0.2, 80);
+            floatEye('eye8', 0.09, 45);
+            floatEye('eye9', 0.11, 58);
+            floatEye('eye10', 0.13, 62);
+            
+            // Flicker warning text
+            flickerText('warning1');
+            flickerText('warning2');
+            flickerText('counter');
+            
+            // Start counter
+            updateCounter();
+        });
+        
+        marker.addEventListener('markerLost', () => {
+            console.log('Marker lost - surveillance paused...');
+        });
+    </script>
+</body>
+</html>
+
+<!--
+═══════════════════════════════════════════════════════════════════════════════
+                    THE WATCHERS - DEAD INTERNET THEORY AR
+═══════════════════════════════════════════════════════════════════════════════
+
+📱 TESTING INSTRUCTIONS:
+
+1. Upload this file to your GitHub repository
+2. Access via GitHub Pages URL
+3. Open on your phone and allow camera access
+4. Point at Hiro marker
+
+Download Hiro marker:
+https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🎨 WHAT YOU'LL SEE:
+
+- 10 floating eyeballs of various sizes surrounding the marker
+- Eyes slowly rotate (simulating tracking/watching)
+- Random blinking animations
+- Gentle floating/bobbing motion
+- Large red warning text: "YOU ARE BEING WATCHED"
+- "DATA COLLECTION ACTIVE" message
+- Counter showing increasing number of tracked users
+- Text flickers/glitches for unsettling effect
+
+💡 CUSTOMIZATION IDEAS:
+
+- Change eye colors: Modify the iris sphere colors (e.g., color="#ff0000" for red eyes)
+- Add more eyes: Copy any <a-sphere> eye block and change position
+- Change warning text: Edit the "value" attribute in <a-text> elements
+- Adjust eye size: Change "radius" values (larger = bigger eyes)
+- Change text color: Modify color="#ff3300" to other colors
+
+🎭 DEAD INTERNET THEORY THEMES:
+
+This AR experience represents:
+- Constant surveillance by bots/AI
+- Loss of privacy in digital spaces
+- The feeling of being watched by non-human entities
+- Data collection and tracking
+- The uncanny valley of artificial observation
+
+Perfect for exploring themes of digital surveillance, AI monitoring, 
+and the eerie feeling that nothing online is truly private or human anymore.
+
+═══════════════════════════════════════════════════════════════════════════════
+-->
